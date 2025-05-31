@@ -1,0 +1,135 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #ffcccb;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+main {
+    padding: 1rem;
+}
+
+#catalogo, #camara, #fotos {
+    margin-bottom: 2rem;
+}
+
+#productos, #imagenes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.producto, .imagen {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    flex: 1 1 calc(33% - 2rem);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+video {
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.imagen-container {
+    position: relative;
+    width: calc(33% - 1rem);
+    margin: 0.5rem;
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  .btn-eliminar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(255,0,0,0.8);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-eliminar:hover {
+    background-color: rgba(200,0,0,0.9);
+  }
+
+  
+.producto-card {
+  width: calc(33% - 1rem);
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+  position: relative; /* para posicionar el botón si quieres ponerlo arriba */
+}
+
+.producto-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Precio y descripción */
+.producto-precio {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.producto-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+  margin-top: 0.5rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
