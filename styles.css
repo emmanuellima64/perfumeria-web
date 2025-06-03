@@ -83,15 +83,17 @@ h2 {
 }
 
 /* CATÁLOGO */
+
 .catalogo-contenedor {
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 1.5rem;
 }
 
 .catalogo-wrapper {
-    display: flex;
-    justify-content: center;
+    display: block; /* 👈 Esto fuerza una sola columna */
+    padding: 1rem;
 }
 
 .producto-card, .add-card {
