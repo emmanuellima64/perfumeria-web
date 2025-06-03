@@ -185,17 +185,21 @@ body {
     user-select: none;
   }
 
-  #detallesGaleria {
+  #detallesGaleria,
+  #detallesCamara {
     display: none;
     margin-top: 1rem;
   }
-  #detallesGaleria label {
+  #detallesGaleria label,
+  #detallesCamara label {
     display: block;
     margin-top: 0.5rem;
     font-weight: bold;
   }
   #detallesGaleria input,
-  #detallesGaleria textarea {
+  #detallesGaleria textarea,
+  #detallesCamara input,
+  #detallesCamara textarea {
     width: 100%;
     padding: 0.3rem;
     margin-top: 0.25rem;
@@ -203,7 +207,7 @@ body {
     border-radius: 4px;
     font-size: 1rem;
   }
-  #guardarGaleria {
+  #guardarGaleria, #guardarCamara {
     margin-top: 0.75rem;
     background-color: #2d89ef;
     color: white;
