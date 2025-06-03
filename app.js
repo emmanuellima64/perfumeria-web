@@ -293,8 +293,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Subir foto desde galería (sin pop-ups)
+  const extension = archivoSeleccionado.name.split(".").pop();
+  const nombreEnStorage = `galeria-${Date.now()}.${extension}`;
 
-uploadTask.on(
+  const uploadTask = storage.ref(nombreEnStorage).put(archivoSeleccionado);
+
+  uploadTask.on(
     "state_changed",
     (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
