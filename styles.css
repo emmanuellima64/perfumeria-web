@@ -1,319 +1,239 @@
+/* FUENTE Y BODY */
 body {
-    font-family: verdana;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
     line-height: 1.6;
     color: #333;
-    margin: 0 0 1rem;
-}	
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f8;
+}
 
-/* ==================== HEADER GLOBAL ==================== */
-  
-  .site-header {
+h2 {
+    font-size: 2.2rem;
+    margin: 2rem 0 1.5rem;
+    text-align: center;
+    color: #111;
+    font-weight: 600;
+}
+
+/* HEADER */
+.site-header {
     width: 100%;
-    background-color: #222;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #1e1e1e;
+    color: white;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
     position: fixed;
     top: 0;
     z-index: 1000;
-  }
-  
-  /* Línea superior: logo + título + menú */
-  .header-top {
-    display: flex;
-    align-items: center; /* centra verticalmente */
-    justify-content: space-between;
-    padding: 0.5rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    color: #fff;
-  }
-  
-  /* Logo */
-  .header-top .logo img {
-    max-height: 50px;
-  }
-  
-  /* Título centrado verticalmente */
-  .header-top h3 {
-    margin-left: 1rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  /* ==================== MENÚ PRINCIPAL ==================== */
-  .main-nav {
-    background-color: #222;
-  }
-  
-  .main-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .main-nav ul li {
-    position: relative;
-  }
-  
-  .main-nav ul li a {
-    display: block;
-    padding: 0.8rem 1.2rem;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: background 0.2s;
-  }
-  
-  .main-nav ul li a:hover {
-    background-color: #444;
-  }
-  
-    /* ==================== BANNER (HERO) ==================== */
-  .hero-banner {
-    position: relative;
-    width: 100%;
-    margin-top: 120px;
-    overflow: hidden;
-    z-index: 1;
-  }
-      
-  .hero-banner img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-    max-height: 800px;
-  }
-
-/* Al inicio del CSS, asegura que #camara y #galeria no estén visibles */
-#camara,
-#galeria {
-  display: none;
 }
 
-/* Sección de galería */
-#galeria {
-    margin-top: 2rem;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #fafafa;
-  }
-  
-  #galeria input[type="file"] {
-    margin-right: 0.5rem;
-  }
-  
-  #previewContainer img {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  /* Tarjetas de imágenes (ya vistas antes) */
-  .producto-card {
-    width: calc(33% - 1rem);
-    margin: 0.5rem;
-    padding: 0.5rem;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: inline-block;
-    vertical-align: top;
-    text-align: center;
-    position: relative;
-  }
-  
-  .producto-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-  }
-  
-  .producto-precio {
-    margin: 0.5rem 0 0.25rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .producto-desc {
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 1.5rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.logo img {
+    max-height: 55px;
+}
+
+.header-top h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    color: #f9f9f9;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.2rem;
     margin: 0;
-    font-size: 0.9rem;
+    padding: 0;
+}
+
+.main-nav a {
+    color: #eee;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.main-nav a:hover {
+    background-color: #444;
+}
+
+/* HERO BANNER */
+.hero-banner {
+    margin-top: 90px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-banner img {
+    width: 100%;
+    max-height: 700px;
+    object-fit: cover;
+}
+
+/* CATÁLOGO */
+.catalogo-contenedor {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.catalogo-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.producto-card, .add-card {
+    width: 260px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.producto-card img {
+    width: 200px;
+    height: 250px;
+    object-fit: contain;
+    background: #f0f0f0;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.producto-precio {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0.6rem 0;
+}
+
+.producto-desc {
+    font-size: 0.95rem;
     color: #666;
-  }
-  
-  .btn-eliminar {
+}
+
+.btn-eliminar {
     margin-top: 0.5rem;
     background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 0.3rem 0.6rem;
+    padding: 0.5rem 1.1rem;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-  }
-  
-  .btn-eliminar:hover {
-    background-color: #c0392b;
-  }
-  .add-card {
-    width: calc(33% - 1rem);
-    margin: 0.5rem;
-    padding: 1rem;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: top;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .add-card:hover {
-    background: #f0f0f0;
-  }
-  
-  .add-icon {
-    font-size: 3rem;
-    color: #666;
-    user-select: none;
-  }
+    transition: background-color 0.3s ease;
+}
 
-  #detallesGaleria,
-  #detallesCamara {
+.btn-eliminar:hover {
+    background-color: #c0392b;
+}
+
+.add-icon {
+    font-size: 3rem;
+    color: #888;
+}
+
+/* FORMULARIOS */
+#camara, #galeria {
     display: none;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+label {
+    font-weight: 600;
     margin-top: 1rem;
-  }
-  #detallesGaleria label,
-  #detallesCamara label {
     display: block;
-    margin-top: 0.5rem;
-    font-weight: bold;
-  }
-  #detallesGaleria input,
-  #detallesGaleria textarea,
-  #detallesCamara input,
-  #detallesCamara textarea {
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
     width: 100%;
-    padding: 0.3rem;
-    margin-top: 0.25rem;
+    padding: 0.7rem;
+    margin-top: 0.4rem;
+    border-radius: 6px;
     border: 1px solid #ccc;
-    border-radius: 4px;
     font-size: 1rem;
-  }
-  #guardarGaleria, #guardarCamara {
-    margin-top: 0.75rem;
+}
+
+button {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
     background-color: #2d89ef;
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-  }
-  #guardarGaleria:hover {
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
     background-color: #1b5fa7;
-  }
-  
-/* ===== FORMULARIO DE CONTACTO ===== */
+}
+
+/* CONTACTO */
 #contacto {
     max-width: 600px;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: sans-serif;
-  }
-  
-  #contacto h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  /* Estilos para labels */
-  #contactForm label {
-    display: block;
-    font-weight: bold;
-    margin-top: 1rem;
-    margin-bottom: 0.3rem;
-  }
-  
-  /* Inputs y textarea */
-  #contactForm input,
-  #contactForm textarea {
-    width: 100%;
-    padding: 0.7rem 1rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-family: inherit;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-  
-  #contactForm input:focus,
-  #contactForm textarea:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  /* Textarea más grande */
-  #contactForm textarea {
-    min-height: 150px;
+    margin: 2.5rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+#contactForm textarea {
     resize: vertical;
-  }
-  
-  /* Botón de envío */
-  #contactForm button[type="submit"] {
-    margin-top: 1.5rem;
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
-    background-color: #003f5f;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background-color 0.3s ease;
-  }
-  
-  #contactForm button[type="submit"]:hover {
-    background-color: #002743;
-  }
-  
-  /* ==================== FOOTER ==================== */
+    min-height: 130px;
+}
+
+/* FOOTER */
 .site-footer {
-    width: 100%;
-    background-color: #222;
-    color: #fff;
-    padding: 1rem 1.5rem;
-    font-family: Verdana, sans-serif;
-  }
-  
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
+    background-color: #1e1e1e;
+    color: white;
+    padding: 2rem 1.5rem;
+    margin-top: 3rem;
+}
+
+.footer-content {
     display: flex;
-    align-items: center;          /* verticalmente alineado */
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;              /* por si hay pantallas pequeñas */
-  }
-  
-  .footer-logo img {
-    max-height: 60px;
-  }
-  
-  .footer-text h3,
-  .footer-text p {
-    margin: 0.3rem 0;
-    font-size: 0.9rem;
-  }
-  
+    max-width: 1200px;
+    margin: auto;
+}
+
+.footer-logo img {
+    max-height: 55px;
+}
+
+.footer-text {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
