@@ -8,47 +8,85 @@
 </head>
 
 <body>
-  <header>
-    <h1>Perfumería Exclusiva</h1>
+   <!-- ==================== HEADER + MENÚ ==================== -->
+  <header class="site-header">
+    <div class="header-top">
+      <!-- Logo a la izquierda -->
+      <div class="logo">
+        <a href="index.html">
+          <img src="images/Logo.png" alt="Perfumería Exclusiva" />
+        </a>
+      </div>
+      <h3>Fragancia King David</h3>
+      <!-- Menú de navegación principal -->
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
+
+  <!-- ==================== BANNER A PANTALLA COMPLETA ==================== -->
+  <section class="hero-banner">
+    <img src="Images/Banner-corto.png" alt="Banner principal Perfumería" />
+  </section>
 
   <main>
     <!-- Catálogo -->
-    <section id="catalogo">
+    <section id="catalogo" >
       <h2>Nuestro Catálogo</h2>
-      <div id="productos">
-        <!-- Aquí se cargarán los productos en tiempo real -->
-      </div>
-    </section>
-
-    <!-- Cámara -->
-    <section id="camara">
-      <h2>Captura y Comparte tus Fotos</h2>
-      <button id="tomarFoto">Tomar Foto</button>
-      <video id="video" autoplay playsinline></video>
-      <canvas id="canvas" style="display:none;"></canvas>
-      <div id="debug"></div> <!-- Para mensajes de prueba -->
-    </section>
-
-    <!--Agregar detalles de precio y description a la foto -->
-    <section id="detalles">
-      <h2>Detalles de la Foto</h2>
-      <form id="fotoForm">
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" name="precio" required />
-
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" required></textarea>
-
-        <button type="button" id="guardarFoto">Guardar Detalles</button>
-      </form>
-
-    <!-- Fotos subidas -->
-    <section id="fotos">
-      <h2>Fotos Subidas</h2>
+      <!--Prodcutos Existentes-->
       <div id="imagenes">
         <!-- Aquí se mostrarán las imágenes en tiempo real -->
       </div>
+        <!-- NUEVA SECCIÓN: Seleccionar foto desde la galería del teléfono -->
+        <div id="galeria" style="display: none;">
+            <h2>Seleccionar Foto desde tu Dispositivo</h2>
+            <!-- 1) Selector de archivo -->
+            <input type="file" id="inputFile" accept="image/*" />
+            <!-- 2) Botón que tu JS busca como “verDetallesBtn” -->
+            <button type="button" id="verDetallesGaleria">Aceptar</button>
+            <!-- 3) Contenedor para la miniatura -->
+            <div id="previewContainer" style="margin-top:1rem;"></div>
+            <!-- 4) Bloque que tu JS busca como “detallesGaleria” -->
+            <div id="detallesGaleria" style="display: none; margin-top:1rem;">
+            <label for="precioGaleria">Precio:</label>
+            <input type="number" id="precioGaleria" min="0" step="0.01" />
+            <label for="descripcionGaleria">Descripción:</label>
+            <textarea id="descripcionGaleria"></textarea>
+            <!-- 5) Botón que tu JS busca como “guardarGaleria” -->
+            <button type="button" id="guardarGaleria">Guardar Foto</button>
+            </div>
+            <!-- 6) Mensajes de estado para galería -->
+            <div id="debugGaleria" style="margin-top:0.5rem; color:#555;"></div>
+        </div>
+  
+        <!-- Bloque de precio y descripción (oculto hasta que haya preview) -->
+        <div id="detallesGaleria" style="display: none; margin-top:1rem;">
+            <label for="precioGaleria">Precio:</label>
+            <input type="number" id="precioGaleria" min="0" step="0.01" />
+
+            <label for="descripcionGaleria">Descripción:</label>
+            <textarea id="descripcionGaleria"></textarea>
+
+            <button type="button" id="guardarGaleria">Guardar Foto</button>
+        </div>
+
+        <!-- 5) Mensajes de estado para galería -->
+        <div id="debugGaleria" style="margin-top: 0.5rem; color: #555;"></div>
+      </div>
+      <!-- Cámara -->
+      <div id="camara">
+        <h2>Captura y Comparte tus Fotos</h2>
+        <button id="tomarFoto">Tomar Foto</button>
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <div id="debug"></div>
+      </div>
+      
     </section>
 
     <!-- Formulario de contacto -->
@@ -69,20 +107,20 @@
     </section>
   </main>
 
-  <footer>
-    <h3>Información de Contacto</h3>
-    <p>Email: luis.saban@gmail.com</p>
-    <p>Teléfono: +34 123 456 789</p>
-    <p>Dirección: Calle Falsa 123, Ciudad, País</p>
-
-    <div class="redes-sociales">
-      <a href="https://www.facebook.com" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com" target="_blank">Instagram</a>
-      <a href="https://www.twitter.com" target="_blank">Twitter</a>
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="images/Logo.png" alt="Fragancia King David" />
+      </div>
+      <div class="footer-text">
+        <h3>Fragancia King David</h3>
+        <p>Cuarto Bachillerato en Computación</p>
+        <p>Guatemala</p>
+        <p>&copy; 2025 Fragancia King David. Todos los derechos reservados.</p>
+      </div>
     </div>
-
-    <p>&copy; 2023 Perfumería Exclusiva. Todos los derechos reservados.</p>
   </footer>
+  
 
   <!-- Firebase SDK “compat” -->
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js" defer></script>

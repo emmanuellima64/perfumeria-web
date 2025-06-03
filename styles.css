@@ -1,135 +1,313 @@
-/* styles.css */
 body {
-    font-family: Arial, sans-serif;
+    font-family: verdana;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0 0 1rem;
+}	
+
+/* ==================== HEADER GLOBAL ==================== */
+  
+  .site-header {
+    width: 100%;
+    background-color: #222;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* Línea superior: logo + título + menú */
+  .header-top {
+    display: flex;
+    align-items: center; /* centra verticalmente */
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+  }
+  
+  /* Logo */
+  .header-top .logo img {
+    max-height: 50px;
+  }
+  
+  /* Título centrado verticalmente */
+  .header-top h3 {
+    margin-left: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  /* ==================== MENÚ PRINCIPAL ==================== */
+  .main-nav {
+    background-color: #222;
+  }
+  
+  .main-nav ul {
+    list-style: none;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-header {
-    background-color: #ffcccb;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-}
-
-main {
-    padding: 1rem;
-}
-
-#catalogo, #camara, #fotos {
-    margin-bottom: 2rem;
-}
-
-#productos, #imagenes {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.producto, .imagen {
-    border: 1px solid #ddd;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    flex: 1 1 calc(33% - 2rem);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-video {
-    max-width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 1rem;
-}
-
-.imagen-container {
+    justify-content: center;
+  }
+  
+  .main-nav ul li {
     position: relative;
+  }
+  
+  .main-nav ul li a {
+    display: block;
+    padding: 0.8rem 1.2rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  
+  .main-nav ul li a:hover {
+    background-color: #444;
+  }
+  
+    /* ==================== BANNER (HERO) ==================== */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    /*margin-top: 120px;  para compensar el header fijo */
+    overflow: hidden;
+  }
+      
+  .hero-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+/* Al inicio del CSS, asegura que #camara y #galeria no estén visibles */
+#camara,
+#galeria {
+  display: none;
+}
+
+/* Sección de galería */
+#galeria {
+    margin-top: 2rem;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+  }
+  
+  #galeria input[type="file"] {
+    margin-right: 0.5rem;
+  }
+  
+  #previewContainer img {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Tarjetas de imágenes (ya vistas antes) */
+  .producto-card {
     width: calc(33% - 1rem);
     margin: 0.5rem;
+    padding: 0.5rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     display: inline-block;
     vertical-align: top;
+    text-align: center;
+    position: relative;
+  }
+  
+  .producto-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .producto-precio {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .producto-desc {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
   }
   
   .btn-eliminar {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: rgba(255,0,0,0.8);
+    margin-top: 0.5rem;
+    background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.9rem;
   }
   
   .btn-eliminar:hover {
-    background-color: rgba(200,0,0,0.9);
+    background-color: #c0392b;
+  }
+  .add-card {
+    width: calc(33% - 1rem);
+    margin: 0.5rem;
+    padding: 1rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .add-card:hover {
+    background: #f0f0f0;
+  }
+  
+  .add-icon {
+    font-size: 3rem;
+    color: #666;
+    user-select: none;
   }
 
+  #detallesGaleria {
+    display: none;
+    margin-top: 1rem;
+  }
+  #detallesGaleria label {
+    display: block;
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+  #detallesGaleria input,
+  #detallesGaleria textarea {
+    width: 100%;
+    padding: 0.3rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  #guardarGaleria {
+    margin-top: 0.75rem;
+    background-color: #2d89ef;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #guardarGaleria:hover {
+    background-color: #1b5fa7;
+  }
   
-.producto-card {
-  width: calc(33% - 1rem);
-  margin: 0.5rem;
-  padding: 0.5rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  display: inline-block;
-  vertical-align: top;
-  text-align: center;
-  position: relative; /* para posicionar el botón si quieres ponerlo arriba */
-}
-
-.producto-card img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-/* Precio y descripción */
-.producto-precio {
-  margin: 0.5rem 0 0.25rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.producto-desc {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* Botón eliminar */
-.btn-eliminar {
-  margin-top: 0.5rem;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.btn-eliminar:hover {
-  background-color: #c0392b;
-}
+/* ===== FORMULARIO DE CONTACTO ===== */
+#contacto {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: sans-serif;
+  }
+  
+  #contacto h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  /* Estilos para labels */
+  #contactForm label {
+    display: block;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  /* Inputs y textarea */
+  #contactForm input,
+  #contactForm textarea {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  #contactForm input:focus,
+  #contactForm textarea:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Textarea más grande */
+  #contactForm textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  /* Botón de envío */
+  #contactForm button[type="submit"] {
+    margin-top: 1.5rem;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    background-color: #003f5f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.3s ease;
+  }
+  
+  #contactForm button[type="submit"]:hover {
+    background-color: #002743;
+  }
+  
+  /* ==================== FOOTER ==================== */
+.site-footer {
+    width: 100%;
+    background-color: #222;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    font-family: Verdana, sans-serif;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;          /* verticalmente alineado */
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;              /* por si hay pantallas pequeñas */
+  }
+  
+  .footer-logo img {
+    max-height: 60px;
+  }
+  
+  .footer-text h3,
+  .footer-text p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+  }
+  
