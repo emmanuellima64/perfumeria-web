@@ -5,11 +5,12 @@ const firebaseConfig = {
   apiKey: "AIzaSyAzGcRQmCvV8H6tL15ZBGjhIf2uWT6o-8A",
   authDomain: "perfumeria-web.firebaseapp.com",
   projectId: "perfumeria-web",
-  storageBucket: "perfumeria-web.appspot.com",     // asegúrate que coincida con tu bucket real
+  storageBucket: "perfumeria-web.firebasestorage.app",
   messagingSenderId: "148592337011",
   appId: "1:148592337011:web:2a38a47df445fc850eca06",
   measurementId: "G-G5RR20PJ7Z"
 };
+
 
 firebase.initializeApp(firebaseConfig);
 const storage = firebase.storage();
