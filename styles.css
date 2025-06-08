@@ -320,6 +320,14 @@ h1, h2 {
     bottom: 90px;
   }
 
+    body {
+    padding-top: 80px; /* ajusta según la altura de tu header en móvil */
+  }
+
+  .hero-banner {
+    margin-top: 0; /* ya no necesitas margen aquí si tienes padding-top en el body */
+  }
+
 }
 
 
