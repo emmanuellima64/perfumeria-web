@@ -267,3 +267,12 @@ function toggleChat() {
     const iframe = document.getElementById("chatbot-frame");
     iframe.style.display = iframe.style.display === "block" ? "none" : "block";
   }
+
+// --------------- Menú Responsive ---------------
+  const toggleBtn = document.getElementById("menu-toggle");
+  const nav = document.querySelector(".main-nav");
+
+  toggleBtn.addEventListener("click", () => {
+    nav.classList.toggle("show");
+  });
+

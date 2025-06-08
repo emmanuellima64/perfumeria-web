@@ -370,3 +370,44 @@ h1, h2 {
   background-color: #003d99;
 }
 
+/* Botón hamburguesa oculto en desktop */
+#menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Móvil: muestra botón, oculta menú */
+@media (max-width: 768px) {
+  #menu-toggle {
+    display: block;
+  }
+
+  .main-nav {
+    display: none;
+    flex-direction: column;
+    background-color: #1e1e1e;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .main-nav a {
+    padding: 1rem;
+    border-bottom: 1px solid #333;
+  }
+
+  .main-nav.show {
+    display: flex;
+  }
+}
