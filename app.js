@@ -262,3 +262,8 @@ document.addEventListener("DOMContentLoaded", () => {
       imagenesDiv.appendChild(addCard);
     });
 });
+
+function toggleChat() {
+    const iframe = document.getElementById("chatbot-frame");
+    iframe.style.display = iframe.style.display === "block" ? "none" : "block";
+  }

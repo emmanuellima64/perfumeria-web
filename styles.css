@@ -239,3 +239,126 @@ button:hover {
     font-size: 0.95rem;
     opacity: 0.85;
 }
+
+ /* --- Estilos Generales --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+/* --- Estructura Principal --- */
+.header, .footer {
+    background-color: #0056b3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+/* --- Contenedor de las Tarjetas (Uso de Flexbox para adaptabilidad) --- */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no caben */
+    gap: 20px; /* Espacio entre las tarjetas */
+    justify-content: center;
+}
+
+/* --- Tarjetas de Contenido --- */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    /* Cada tarjeta intentará ocupar 300px, pero puede encogerse */
+    flex: 1 1 300px; 
+    max-width: 400px;
+}
+
+.card img {
+    max-width: 100%; /* La imagen nunca será más ancha que su contenedor */
+    height: auto;    /* Mantiene la proporción de la imagen */
+    border-radius: 8px;
+}
+
+h1, h2 {
+    color: #003d82;
+}
+
+/* =============================================================== */
+/* === MEDIA QUERIES: LA MAGIA DE LA ADAPTABILIDAD === */
+/* =============================================================== */
+
+/* Para pantallas más pequeñas de 768px (tabletas) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8em;
+    }
+    .card {
+        /* En tabletas, permitimos que las tarjetas sean un poco más grandes */
+        flex-basis: 400px;
+    }
+}
+
+/* Para pantallas muy pequeñas de 480px (móviles) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+    /* Hacemos que el contenido principal ocupe todo el ancho para no tener márgenes excesivos */
+    .main-content {
+        padding: 10px;
+    }
+    #chatbot-frame {
+    width: 95%;
+    height: 70%;
+    right: 2.5%;
+    bottom: 90px;
+  }
+
+}
+
+
+#chatbot-frame {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 380px;
+  height: 520px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  display: none; /* Oculto por defecto */
+  background: white;
+}
+
+/* Botón flotante */
+#chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0052cc;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: background-color 0.3s;
+}
+
+#chat-toggle-btn:hover {
+  background-color: #003d99;
+}
+
