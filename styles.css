@@ -328,6 +328,21 @@ h1, h2 {
     margin-top: 0; /* ya no necesitas margen aquí si tienes padding-top en el body */
   }
 
+  .header-top {
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .logo img {
+    max-height: 45px;
+  }
+
+  .header-top h3 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+
 }
 
 
