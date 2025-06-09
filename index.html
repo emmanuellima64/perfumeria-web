@@ -18,6 +18,11 @@
         </a>
       </div>
       <h3>Fragancia King David</h3>
+
+        <!-- Ícono del carrito en el header -->
+       <button id="abrir-carrito" class="carrito-header-btn" aria-label="Carrito">🛒</button>
+
+
       <!-- Botón menú hamburguesa -->
       <button id="menu-toggle" aria-label="Abrir menú">&#9776;</button>
 
@@ -37,7 +42,20 @@
     <img src="Images/Banner-corto.png" alt="Banner principal Perfumería" />
   </section>
 
+   
   <main>
+    <section id="Perfume">
+      <h2>Descubre el envase</h2>
+      <model-viewer
+        src="Images/perfume_bottle_gltf/scene.gltf"
+        camera-controls
+        auto-rotate
+        disable-zoom
+        style="width: 100%; height: 300px; background: transparent; margin-bottom: -50px;"
+      ></model-viewer>
+    </section>
+    
+
     <!-- Catálogo -->
     <section id="catalogo" >
       <h2>Nuestro Catálogo</h2>
@@ -136,6 +154,16 @@
         frameborder="0"
       ></iframe>
     </div>
+
+    <!-- 🛒 Carrito -->
+<div id="carrito-container" class="carrito-modal" style="display:none;">
+  <h2>🛒 Tu carrito</h2>
+  <div id="carrito-items"></div>
+  <p id="carrito-total">Total: Q 0.00</p>
+  <button onclick="cerrarCarrito()">Cerrar</button>
+</div>
+
+
   </main>
 
   <footer class="site-footer">
@@ -159,5 +187,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js" defer></script>
   <!-- Tu lógica JS -->
   <script src="app.js" defer></script>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+
 </body>
 </html>
