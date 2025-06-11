@@ -1,12 +1,10 @@
-// app.js completo con subida individual por imagen y renderizado agrupado por producto
-
 console.log("app.js cargado ✅");
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzGcRQmCvV8H6tL15ZBGjhIf2uWT6o-8A",
   authDomain: "perfumeria-web.firebaseapp.com",
   projectId: "perfumeria-web",
-  storageBucket: "perfumeria-web.appspot.com",
+  storageBucket: "perfumeria-web.firebasestorage.app",
   messagingSenderId: "148592337011",
   appId: "1:148592337011:web:2a38a47df445fc850eca06",
   measurementId: "G-G5RR20PJ7Z"
@@ -37,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const descripcionGaleria = document.getElementById("descripcionGaleria");
   const guardarGaleriaBtn = document.getElementById("guardarGaleria");
   const debugGaleria = document.getElementById("debugGaleria");
-  let archivosSeleccionados = [];
+  let archivoSeleccionado = null;
 
   if (inputFile) {
     inputFile.addEventListener("change", () => {
@@ -46,123 +44,173 @@ document.addEventListener("DOMContentLoaded", () => {
       detallesGaleria.style.display = "none";
       precioGaleria.value = "";
       descripcionGaleria.value = "";
-      archivosSeleccionados = Array.from(inputFile.files);
-      archivosSeleccionados.forEach(file => {
-        const imgPrev = document.createElement("img");
-        imgPrev.style.maxWidth = "100px";
-        imgPrev.style.marginRight = "0.5rem";
-        imgPrev.src = URL.createObjectURL(file);
-        previewContainer.appendChild(imgPrev);
-      });
-      if (archivosSeleccionados.length > 0) {
-        detallesGaleria.style.display = "block";
+      archivoSeleccionado = inputFile.files[0] || null;
+    });
+  }
+
+  if (verDetallesBtn) {
+    verDetallesBtn.addEventListener("click", () => {
+      previewContainer.innerHTML = "";
+      debugGaleria.innerText = "";
+
+      if (!archivoSeleccionado) {
+        debugGaleria.innerText = "Primero selecciona una imagen.";
+        return;
       }
+      if (!archivoSeleccionado.type.startsWith("image/")) {
+        debugGaleria.innerText = "Por favor selecciona un archivo de imagen.";
+        return;
+      }
+      const imgPrev = document.createElement("img");
+      imgPrev.style.maxWidth = "200px";
+      imgPrev.style.marginTop = "0.5rem";
+      imgPrev.src = URL.createObjectURL(archivoSeleccionado);
+      previewContainer.appendChild(imgPrev);
+      detallesGaleria.style.display = "block";
     });
   }
 
   if (guardarGaleriaBtn) {
     guardarGaleriaBtn.addEventListener("click", () => {
-      if (archivosSeleccionados.length === 0) {
-        debugGaleria.innerText = "No hay imágenes seleccionadas.";
+      if (!archivoSeleccionado) {
+        debugGaleria.innerText = "No hay imagen seleccionada.";
         return;
       }
-
       const precioVal = Number(precioGaleria.value);
       if (isNaN(precioVal) || precioVal < 0) {
         debugGaleria.innerText = "Precio inválido (>= 0).";
         return;
       }
-
       const descripcionVal = descripcionGaleria.value.trim();
-      debugGaleria.innerText = "Subiendo las fotos...";
+      debugGaleria.innerText = "Subiendo la foto...";
 
-      const uploadPromises = archivosSeleccionados.map(file => {
-        const extension = file.name.split(".").pop();
-        const nombreEnStorage = `galeria-${Date.now()}-${Math.floor(Math.random() * 10000)}.${extension}`;
-        return storage.ref(nombreEnStorage).put(file).then(snapshot =>
-          snapshot.ref.getDownloadURL().then(url => {
-            return db.collection("imagenes").add({
-              url,
-              path: nombreEnStorage,
-              precio: precioVal,
-              descripcion: descripcionVal,
-              timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          })
-        );
-      });
+      const extension = archivoSeleccionado.name.split(".").pop();
+      const nombreEnStorage = `galeria-${Date.now()}.${extension}`;
 
-      Promise.all(uploadPromises)
-        .then(() => {
-          debugGaleria.innerText = "Todas las fotos fueron guardadas ✔️";
+      const uploadTask = storage.ref(nombreEnStorage).put(archivoSeleccionado);
+      uploadTask.on("state_changed", () => {}, error => {
+        debugGaleria.innerText = "Error subiendo: " + error.message;
+      }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+          return db.collection("imagenes").add({
+            url,
+            path: nombreEnStorage,
+            precio: precioVal,
+            descripcion: descripcionVal,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }).then(() => {
+          debugGaleria.innerText = "Foto y detalles guardados ✔️";
           previewContainer.innerHTML = "";
           inputFile.value = "";
           detallesGaleria.style.display = "none";
           precioGaleria.value = "";
           descripcionGaleria.value = "";
-          archivosSeleccionados = [];
-        })
-        .catch(error => {
-          debugGaleria.innerText = "Error subiendo o guardando: " + error.message;
+          archivoSeleccionado = null;
+        }).catch(err => {
+          debugGaleria.innerText = "Error guardando datos: " + err.message;
         });
+      });
+    });
+  }
+
+  if (captureButton) {
+    captureButton.addEventListener("click", () => {
+      if (!video.videoWidth || !video.videoHeight) {
+        debugDiv.innerText = "Vídeo no listo, espera un momento...";
+        return;
+      }
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.style.display = "block";
+      debugDiv.innerText = "Foto tomada ✔️";
+      detallesCamara.style.display = "block";
+    });
+  }
+
+  if (saveButton) {
+    saveButton.addEventListener("click", () => {
+      debugDiv.innerText = "Guardando foto...";
+      const precioVal = Number(precioInput?.value || 0);
+      const descripcionVal = descripcionInput?.value || "";
+      canvas.toBlob(blob => {
+        const name = `foto-${Date.now()}.jpg`;
+        storage.ref(name).put(blob).then(snap => snap.ref.getDownloadURL().then(url => {
+          return db.collection("imagenes").add({
+            url,
+            path: name,
+            precio: precioVal,
+            descripcion: descripcionVal,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        })).then(() => {
+          debugDiv.innerText = "Foto y detalles guardados ✔️";
+          precioInput.value = "";
+          descripcionInput.value = "";
+          detallesCamara.style.display = "none";
+          canvas.style.display = "none";
+          if (streamCamara && streamCamara.getTracks) {
+            streamCamara.getTracks().forEach(track => track.stop());
+          }
+          document.getElementById("camara").style.display = "none";
+        }).catch(err => {
+          debugDiv.innerText = "Error: " + err.message;
+        });
+      }, "image/jpeg");
     });
   }
 
   db.collection("imagenes").orderBy("timestamp", "desc").onSnapshot(snap => {
     imagenesDiv.innerHTML = "";
-
-    const grupos = {};
     snap.forEach(doc => {
       const { url, path, precio, descripcion } = doc.data();
       const id = doc.id;
-      const key = `${descripcion}||${precio}`;
-      if (!grupos[key]) {
-        grupos[key] = { descripcion, precio, docs: [] };
-      }
-      grupos[key].docs.push({ id, url, path });
-    });
-
-    Object.values(grupos).forEach(grupo => {
       const card = document.createElement("div");
       card.classList.add("producto-card");
 
-      const galeria = document.createElement("div");
-      galeria.style.display = "flex";
-      galeria.style.gap = "0.5rem";
-      galeria.style.overflowX = "auto";
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = descripcion || "Foto de producto";
+      img.style.maxWidth = "100%";
+      img.onerror = () => {
+        card.remove();
+        db.collection("imagenes").doc(id).delete().catch(console.error);
+      };
+      card.appendChild(img);
 
-      grupo.docs.forEach(imgData => {
-        const img = document.createElement("img");
-        img.src = imgData.url;
-        img.alt = grupo.descripcion || "Foto de producto";
-        img.style.width = "120px";
-        img.style.height = "150px";
-        img.style.objectFit = "cover";
-        galeria.appendChild(img);
-      });
-
-      card.appendChild(galeria);
-
-      const precioEl = document.createElement("p");
-      precioEl.classList.add("producto-precio");
-      precioEl.innerText = `Q ${grupo.precio.toFixed(2)}`;
-      card.appendChild(precioEl);
-
-      const descEl = document.createElement("p");
-      descEl.classList.add("producto-desc");
-      descEl.innerText = grupo.descripcion;
-      card.appendChild(descEl);
+      if (precio != null) {
+        const precioEl = document.createElement("p");
+        precioEl.classList.add("producto-precio");
+        precioEl.innerText = `Q ${precio.toFixed(2)}`;
+        card.appendChild(precioEl);
+      }
+      if (descripcion) {
+        const descEl = document.createElement("p");
+        descEl.classList.add("producto-desc");
+        descEl.innerText = descripcion;
+        card.appendChild(descEl);
+      }
 
       const btnEliminar = document.createElement("button");
       btnEliminar.textContent = "Eliminar";
       btnEliminar.classList.add("btn-eliminar");
       btnEliminar.addEventListener("click", () => {
-        Promise.all(grupo.docs.map(img => storage.ref(img.path).delete()))
-          .then(() => {
-            return Promise.all(grupo.docs.map(img => db.collection("imagenes").doc(img.id).delete()));
-          });
+        storage.ref(path).delete().then(() => db.collection("imagenes").doc(id).delete());
       });
       card.appendChild(btnEliminar);
+
+      const btnCarrito = document.createElement("button");
+      btnCarrito.textContent = "Agregar al carrito 🛒";
+      btnCarrito.classList.add("btn-carrito");
+      btnCarrito.addEventListener("click", () => {
+        const item = { id, descripcion, precio, url };
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        carrito.push(item);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        alert("Producto agregado al carrito");
+      });
+      card.appendChild(btnCarrito);
 
       imagenesDiv.appendChild(card);
     });
@@ -195,3 +243,61 @@ document.addEventListener("DOMContentLoaded", () => {
     imagenesDiv.appendChild(addCard);
   });
 });
+
+function toggleChat() {
+  const iframe = document.getElementById("chatbot-frame");
+  iframe.style.display = iframe.style.display === "block" ? "none" : "block";
+}
+
+const toggleBtn = document.getElementById("menu-toggle");
+const nav = document.querySelector(".main-nav");
+toggleBtn.addEventListener("click", () => {
+  nav.classList.toggle("show");
+});
+
+// --------------- Carrito de compras ---------------
+document.getElementById("abrir-carrito").addEventListener("click", () => {
+  const cont = document.getElementById("carrito-container");
+  const items = JSON.parse(localStorage.getItem("carrito")) || [];
+  const itemsContainer = document.getElementById("carrito-items");
+  const totalContainer = document.getElementById("carrito-total");
+  itemsContainer.innerHTML = "";
+
+  let total = 0;
+  items.forEach((item, index) => {
+    const div = document.createElement("div");
+
+    const img = document.createElement("img");
+    img.src = item.url;
+    img.style.maxWidth = "50px";
+    img.style.marginRight = "10px";
+
+    const label = document.createElement("span");
+    label.innerHTML = `<strong>${item.descripcion}</strong> - Q${item.precio.toFixed(2)}`;
+
+    const btn = document.createElement("button");
+    btn.textContent = "❌";
+    btn.onclick = () => eliminarDelCarrito(index);
+
+    div.appendChild(img);
+    div.appendChild(label);
+    div.appendChild(btn);
+
+    total += item.precio;
+    itemsContainer.appendChild(div);
+  });
+
+  totalContainer.innerText = `Total: Q ${total.toFixed(2)}`;
+  cont.style.display = "block";
+});
+
+function cerrarCarrito() {
+  document.getElementById("carrito-container").style.display = "none";
+}
+
+function eliminarDelCarrito(index) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carrito.splice(index, 1);
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+  document.getElementById("abrir-carrito").click(); // recarga
+}
