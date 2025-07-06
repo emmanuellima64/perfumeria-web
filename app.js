@@ -302,3 +302,18 @@ function eliminarDelCarrito(index) {
   localStorage.setItem("carrito", JSON.stringify(carrito));
   document.getElementById("abrir-carrito").click(); // recarga
 }
+
+// Conexión al ESP32 por red local
+const ipRobot = "http://192.168.4.1"; // Cambia esta IP según tu red
+
+function enviar(direccion) {
+  fetch(`${ipRobot}/mover?direccion=${direccion}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Fallo al enviar comando");
+      console.log(`Comando enviado: ${direccion}`);
+    })
+    .catch(err => {
+      console.error("Error al conectar con el robot:", err.message);
+      alert("No se pudo enviar el comando al robot. Verifica la conexión WiFi o la IP.");
+    });
+}
