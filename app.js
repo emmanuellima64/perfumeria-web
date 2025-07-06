@@ -1,4 +1,3 @@
-
 console.log("app.js cargado ✅");
 
 const firebaseConfig = {
