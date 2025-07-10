@@ -165,16 +165,28 @@
 </div>
   
 
-  <!-- CONTROL DEL ROBOT -->
-  <section id="robot-control">
-    <h2>Control del Robot</h2>
-    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-      <button onclick="enviar('adelante')">⬆️ Adelante</button>
-      <button onclick="enviar('izquierda')">⬅️ Izquierda</button>
-      <button onclick="enviar('derecha')">➡️ Derecha</button>
-      <button onclick="enviar('atras')">⬇️ Atrás</button>
-    </div>
-  </section>
+    <h1>Control del Sistema de Loción</h1>
+
+  <button onclick="enviarAccion('crear')">Crear Loción</button>
+  <button onclick="enviarAccion('muestra')">Tomar Muestra</button>
+  <button onclick="enviarAccion('ticket')">Tomar Ticket</button>
+
+  <p id="respuesta"></p>
+
+  <script>
+    const ipESP32 = "http://192.168.1.47"; // Cambia a la IP de tu ESP32
+
+    function enviarAccion(accion) {
+      fetch(`${ipESP32}/accion?accion=${accion}`)
+        .then(res => res.text())
+        .then(msg => {
+          document.getElementById("respuesta").innerText = msg;
+        })
+        .catch(err => {
+          document.getElementById("respuesta").innerText = "Error: " + err;
+        });
+    }
+  </script>
 
   <footer class="site-footer">
 
