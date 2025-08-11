@@ -316,3 +316,34 @@ function enviar(direccion) {
       alert("No se pudo enviar el comando al robot. Verifica la conexión WiFi o la IP.");
     });
 }
+
+function enviarAccion(accion) {
+  const ipESP32 = "http://192.168.1.50"; // ← cámbiala por tu IP local
+  const map = {
+    crear: 1,
+    muestra: 2,
+    ticket: 3
+  };
+
+  const boton = map[accion];
+  const respuestaEl = document.getElementById("respuesta");
+
+  if (!respuestaEl) return; // si no existe el contenedor, salimos
+
+  if (boton === undefined) {
+    respuestaEl.innerText = "❌ Acción inválida.";
+    return;
+  }
+
+  respuestaEl.innerText = "⌛ Enviando...";
+
+  fetch(`${ipESP32}/accion?boton=${boton}`)
+    .then(res => res.text())
+    .then(msg => {
+      respuestaEl.innerText = `✅ ${msg}`;
+    })
+    .catch(err => {
+      respuestaEl.innerText = `❌ Error: ${err.message}`;
+    });
+}
+
