@@ -8,41 +8,55 @@
 </head>
 
 <body>
-   <!-- ==================== HEADER + MENÚ ==================== -->
+  <!-- ==================== HEADER ==================== -->
   <header class="site-header">
     <div class="header-top">
-      <!-- Logo a la izquierda -->
-      <div class="logo">
-        <a href="index.html">
-          <img src="Images/Frag.png" alt="Perfumería Exclusiva" />
-        </a>
-      </div>
-      <h3>Fragancia King David</h3>
+      <!-- Mini logo a la izquierda (SIN fondo) -->
+      <a class="brand-mini" href="index.html" aria-label="Inicio">
+        <img src="Images/WhatsApp Image 2025-08-17 at 6.44.23 PM.jpeg" alt="SPIRE" class="logo-chip" />
+      </a>
 
-        <!-- Ícono del carrito en el header -->
-       <button id="abrir-carrito" class="carrito-header-btn" aria-label="Carrito">🛒</button>
-
-
-      <!-- Botón menú hamburguesa -->
-      <button id="menu-toggle" aria-label="Abrir menú">&#9776;</button>
-
-      <!-- Menú de navegación principal -->
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#">Inicio</a></li>
-          <li><a href="#catalogo">Catálogo</a></li>
-          <li><a href="#contacto">Contacto</a></li>
-        </ul>
-      </nav>
+      <!-- Solo el carrito a la derecha -->
+      <button id="abrir-carrito" class="carrito-header-btn" aria-label="Carrito" title="Carrito">🛒</button>
     </div>
+
+    <!-- ▓▓ Barra negra de categorías centrada ▓▓ -->
+    <nav class="category-bar" aria-label="Categorías">
+      <ul class="cat-menu">
+        <li class="has-sub">
+          <a href="#catalogo">Fragancias</a>
+          <ul class="sub">
+            <li><a href="#catalogo" data-filter="hombre">Hombre</a></li>
+            <li><a href="#catalogo" data-filter="mujer">Mujer</a></li>
+            <li class="has-sub">
+              <a href="#catalogo">Por tipo ▸</a>
+              <ul class="sub right">
+                <li><a href="#catalogo" data-filter="eau-de-parfum">Eau de Parfum</a></li>
+                <li><a href="#catalogo" data-filter="eau-de-toilette">Eau de Toilette</a></li>
+              </ul>
+            </li>
+            <li><a href="#catalogo" data-filter="novedades">Novedades</a></li>
+            <li><a href="#catalogo" data-filter="best-sellers">Best Sellers</a></li>
+            <li><a href="#catalogo" data-filter="ver-todas">Ver todas</a></li>
+          </ul>
+        </li>
+
+        <li><a href="#catalogo">Tratamiento</a></li>
+        <li><a href="#catalogo">Maquillaje</a></li>
+        <li><a href="#catalogo">Otros</a></li>
+        <li><a href="#catalogo">Marcas</a></li>
+        <li><a href="#catalogo">Estuches</a></li>
+        <li><a href="#catalogo">Regalos</a></li>
+        <li><a href="#contacto">Contáctanos</a></li>
+      </ul>
+    </nav>
   </header>
 
   <!-- ==================== BANNER A PANTALLA COMPLETA ==================== -->
   <section class="hero-banner">
-    <img src="Images/Banner-corto.png" alt="Banner principal Perfumería" />
+    <img src="Images/WhatsApp Image 2025-08-14 at 5.31.38 PM (1).jpeg" alt="Banner principal Perfumería" />
   </section>
 
-   
   <main>
     <section id="Perfume3D">
       <h2>Descubre el envase</h2>
@@ -53,80 +67,37 @@
         disable-zoom
         style="width: 100%; height: 300px; background: transparent; margin-bottom: -50px;"
       ></model-viewer>
-      <!---Agregar mas perfumes 3D-->
     </section>
-    
 
-    <!-- Catálogo -->
-    <section id="catalogo" >
+    <!-- ==================== CATÁLOGO ==================== -->
+    <section id="catalogo">
       <h2>Nuestro Catálogo</h2>
-      <!--Prodcutos Existentes-->
       <div class="catalogo-wrapper">
-      <div class="catalogo-contenedor">
-      <div id="imagenes">
-        <!-- Aquí se mostrarán las imágenes en tiempo real -->
-      </div>
-        <!-- NUEVA SECCIÓN: Seleccionar foto desde la galería del teléfono -->
-        <div id="galeria" style="display: none;">
+        <div class="catalogo-contenedor">
+          <div id="imagenes"><!-- Render en tiempo real --></div>
+
+          <!-- Selección desde dispositivo (oculto por defecto) -->
+          <div id="galeria" style="display: none;">
             <h2>Seleccionar Foto desde tu Dispositivo</h2>
-            <!-- 1) Selector de archivo -->
-            <input type="file" id="inputFile" accept="image/*" multiple/>
-            <!-- 2) Botón que tu JS busca como “verDetallesBtn” -->
+            <input type="file" id="inputFile" accept="image/*" multiple />
             <button type="button" id="verDetallesGaleria">Aceptar</button>
-            <!-- 3) Contenedor para la miniatura -->
             <div id="previewContainer" style="margin-top:1rem;"></div>
-            <!-- 4) Bloque que tu JS busca como “detallesGaleria” -->
             <div id="detallesGaleria" style="display: none; margin-top:1rem;">
-            <label for="precioGaleria">Precio:</label>
-            <input type="number" id="precioGaleria" min="0" step="0.01" />
-            <label for="descripcionGaleria">Descripción:</label>
-            <textarea id="descripcionGaleria"></textarea>
-            <!-- 5) Botón que tu JS busca como “guardarGaleria” -->
-            <button type="button" id="guardarGaleria">Guardar Foto</button>
+              <label for="precioGaleria">Precio:</label>
+              <input type="number" id="precioGaleria" min="0" step="0.01" />
+              <label for="descripcionGaleria">Descripción:</label>
+              <textarea id="descripcionGaleria"></textarea>
+              <button type="button" id="guardarGaleria">Guardar Foto</button>
             </div>
-            <!-- 6) Mensajes de estado para galería -->
             <div id="debugGaleria" style="margin-top:0.5rem; color:#555;"></div>
+          </div>
+
+          <!-- 🧹 Se eliminó la sección de CÁMARA/TOMAR FOTO -->
         </div>
-  
-        <!-- Bloque de precio y descripción (oculto hasta que haya preview) -->
-        <div id="detallesGaleria" style="display: none; margin-top:1rem;">
-            <label for="precioGaleria">Precio:</label>
-            <input type="number" id="precioGaleria" min="0" step="0.01" />
-
-            <label for="descripcionGaleria">Descripción:</label>
-            <textarea id="descripcionGaleria"></textarea>
-
-            <button type="button" id="guardarGaleria">Guardar Foto</button>
-        </div>
-
-        <!-- 5) Mensajes de estado para galería -->
-        <div id="debugGaleria" style="margin-top: 0.5rem; color: #555;"></div>
-      </div>
-      <!-- Cámara -->
-      <div id="camara">
-        <h2>Captura y Comparte tus Fotos</h2>
-        <button id="tomarFoto">Tomar Foto</button>
-        <video id="video" autoplay playsinline></video>
-        <canvas id="canvas" style="display:none;"></canvas>
-
-        <!-- 🟨 NUEVO: Campos para precio y descripción -->
-        <div id="detallesCamara" style="display:none; margin-top: 1rem;">
-          <label for="precio">Precio:</label>
-          <input type="number" id="precio" min="0" step="0.01" />
-
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" rows="3"></textarea>
-
-          <button type="button" id="guardarFoto">Guardar Foto</button>
-        </div>
-
-        <div id="debug"></div>
-      </div>
-      </div>
       </div>
     </section>
 
-    <!-- Formulario de contacto -->
+    <!-- ==================== CONTACTO ==================== -->
     <section id="contacto">
       <h2>Contáctanos</h2>
       <form id="contactForm">
@@ -142,76 +113,237 @@
         <button type="submit">Enviar</button>
       </form>
     </section>
-    <div class="chatbot-container">
-<!-- Botón flotante -->
-    <div id="chat-toggle-btn" onclick="toggleChat()">
-  💬
-      </div>
 
-      <!-- Chat flotante (oculto por defecto) -->
+    <!-- ==================== CHAT ==================== -->
+    <div class="chatbot-container">
+      <div id="chat-toggle-btn" onclick="toggleChat()">💬</div>
       <iframe
         id="chatbot-frame"
-        src="https://copilotstudio.microsoft.com/environments/Default-2351973e-5975-4eef-be28-3756ef3a4694/bots/cr9e5_pollito/webchat?__version__=2" 
+        src="https://copilotstudio.microsoft.com/environments/Default-2351973e-5975-4eef-be28-3756ef3a4694/bots/cr9e5_pollito/webchat?__version__=2"
         frameborder="0"
       ></iframe>
     </div>
 
-    <!-- 🛒 Carrito -->
-<div id="carrito-container" class="carrito-modal" style="display:none;">
-  <h2>🛒 Tu carrito</h2>
-  <div id="carrito-items"></div>
-  <p id="carrito-total">Total: Q 0.00</p>
-  <button onclick="cerrarCarrito()">Cerrar</button>
-</div>
-  
-<div id="bot-control-container" class="bot-control-modal">
-    <h1>Control del Sistema de Loción</h1>
+    <!-- ==================== 🛒 CARRITO ==================== -->
+    <div id="carrito-container" class="carrito-modal" style="display:none;">
+      <h2>🛒 Tu carrito</h2>
+      <div id="carrito-items"></div>
+      <p id="carrito-total">Total: Q 0.00</p>
+      <div style="display:flex; gap:.5rem; margin-top:.5rem;">
+        <button id="btnCheckout" class="btn" style="background:#0d6efd;color:#fff;">Proceder al pago</button>
+        <button onclick="cerrarCarrito()">Cerrar</button>
+      </div>
+    </div>
 
-  <button onclick="enviarAccion('crear')">Crear Loción</button>
-  <button onclick="enviarAccion('muestra')">Tomar Muestra</button>
-  <button onclick="enviarAccion('ticket')">Tomar Ticket</button>
+    <!-- ==================== CONTROL BOT ==================== -->
+    <div id="bot-control-container" class="bot-control-modal">
+      <h1>Control del Sistema de Loción</h1>
+      <button onclick="enviarAccion('crear')">Crear Loción</button>
+      <button onclick="enviarAccion('muestra')">Tomar Muestra</button>
+      <button onclick="enviarAccion('ticket')">Tomar Ticket</button>
+      <p id="respuesta"></p>
+    </div>
 
-  <p id="respuesta"></p>
-</div>
-  <script>
-    const ipESP32 = "http://172.20.10.3"; // Cambia a la IP de tu ESP32
-
-    function enviarAccion(accion) {
-      fetch(`${ipESP32}/accion?accion=${accion}`)
-        .then(res => res.text())
-        .then(msg => {
-          document.getElementById("respuesta").innerText = msg;
-        })
-        .catch(err => {
-          document.getElementById("respuesta").innerText = "Error: " + err;
-        });
-    }
-  </script>
-
+    <script>
+      const ipESP32 = "http://172.20.10.3";
+      function enviarAccion(accion) {
+        fetch(`${ipESP32}/accion?accion=${accion}`)
+          .then(res => res.text())
+          .then(msg => { document.getElementById("respuesta").innerText = msg; })
+          .catch(err => { document.getElementById("respuesta").innerText = "Error: " + err; });
+      }
+    </script>
   </main>
 
+  <!-- ==================== FOOTER ==================== -->
   <footer class="site-footer">
     <div class="footer-content">
+      <!-- Mini logo en el footer (SIN fondo) -->
       <div class="footer-logo">
-        <img src="Images/Frag.png" alt="Fragancia King David" />
+        <img src="Images/WhatsApp Image 2025-08-17 at 6.44.23 PM.jpeg" alt="SPIRE" class="logo-chip logo-chip--footer" />
       </div>
       <div class="footer-text">
         <h3>Fragancia King David</h3>
         <p>Cuarto Bachillerato en Computación</p>
         <p>Guatemala</p>
-        <p>&copy; 2025 Fragancia King David. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Fragancias Spire. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
-  
 
   <!-- Firebase SDK “compat” -->
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-storage-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js" defer></script>
-  <!-- Tu lógica JS -->
+
+  <!-- Lógica JS -->
   <script src="app.js" defer></script>
+
+  <!-- model-viewer -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
+  <!-- ==================== MODAL DETALLE PRODUCTO ==================== -->
+  <div id="producto-modal" class="producto-modal" style="display:none;">
+    <div class="producto-modal__backdrop" id="closeDetalle"></div>
+
+    <div class="producto-modal__card" role="dialog" aria-modal="true" aria-labelledby="prodTitle">
+      <button class="producto-modal__close" id="closeDetalleBtn" aria-label="Cerrar">✕</button>
+
+      <div class="producto-modal__grid">
+        <div class="producto-modal__gallery">
+          <span class="badge" id="detalleBadge" style="display:none;">NOVEDAD</span>
+          <img id="detalleMain" class="gallery-main" src="" alt="Imagen de producto" />
+          <div id="detalleThumbs" class="thumbs"></div>
+        </div>
+
+        <div class="producto-modal__info">
+          <div class="brand" id="detalleBrand">FRAGANCIA</div>
+          <h2 id="prodTitle" class="title">Nombre del producto</h2>
+          <div class="price" id="detallePrecio">Q 0.00</div>
+
+          <div class="chips" id="detalleChips"></div>
+
+          <div class="cta-row">
+            <input class="qty" type="number" min="1" value="1" id="detalleQty">
+            <button class="btn btn-primary" id="detalleAddCart">Agregar al carrito</button>
+            <button class="btn btn-ghost" id="detalleFav">❤ Guardar</button>
+          </div>
+
+          <div class="pay-row">
+            <div id="paypal-button-container"></div>
+            <button class="btn btn-ghost" id="payTarjetaLocal">Pagar con tarjeta</button>
+            <button class="btn btn-ghost" id="payTransferencia">Transferencia / Depósito</button>
+          </div>
+
+          <div class="tabbar" id="detalleTabs">
+            <button data-tab="p1" class="active">Notas & Familia</button>
+            <button data-tab="p2">Recomendaciones</button>
+            <button data-tab="p3">Devoluciones & Envíos</button>
+          </div>
+          <div class="tabcontent" id="p1"></div>
+          <div class="tabcontent" id="p2" style="display:none"></div>
+          <div class="tabcontent" id="p3" style="display:none"></div>
+
+          <div class="secure">🔒 Pago seguro • Datos cifrados • Devolución garantizada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CHECKOUT MODAL ==================== -->
+  <div id="checkout-modal" class="checkout-modal" style="display:none;">
+    <div class="checkout-card">
+      <!-- (Quitamos las X de arriba) -->
+      <div class="checkout-head">
+        <h3>Finalizar compra</h3>
+      </div>
+
+      <div class="checkout-body">
+        <div class="co-col">
+          <label>Nombre completo</label>
+          <input id="coNombre" type="text" placeholder="Nombre y apellido">
+
+          <label>Correo</label>
+          <input id="coEmail" type="email" placeholder="correo@ejemplo.com">
+
+          <label>Teléfono</label>
+          <input id="coTelefono" type="tel" placeholder="+502 ...">
+
+          <label>Dirección de envío</label>
+          <textarea id="coDireccion" rows="3" placeholder="Calle, número, zona, ciudad"></textarea>
+        </div>
+
+        <div class="co-col">
+          <div class="co-box">
+            <div class="co-row">
+              <strong>Total:</strong>
+              <div id="coTotal">Q 0.00</div>
+            </div>
+
+            <label>Método de pago</label>
+            <div class="co-metodos">
+              <label><input type="radio" name="coPago" value="tarjeta" checked> Tarjeta (PayPal)</label>
+              <label><input type="radio" name="coPago" value="transferencia"> Transferencia / Depósito</label>
+            </div>
+
+            <div id="coTarjeta">
+              <div id="paypal-buttons"></div>
+              <small>Usa tu cuenta o tarjeta con PayPal.</small>
+            </div>
+
+            <div id="coTransf" style="display:none;">
+              <div class="co-bank">
+                <p><strong>Banco:</strong> Tu Banco</p>
+                <p><strong>Cuenta:</strong> 000-000000-0</p>
+                <p><strong>Nombre:</strong> Tu Nombre / Empresa</p>
+                <p><strong>Referencia:</strong> Usa tu nombre y teléfono</p>
+              </div>
+              <label>Sube el comprobante (foto o PDF)</label>
+              <input id="coComprobante" type="file" accept="image/*,.pdf">
+              <button id="coEnviarTransf" class="btn" style="background:#28a745;color:#fff;width:100%;margin-top:10px;">Enviar pedido</button>
+              <small>Tu pedido quedará como <b>pendiente de verificación</b>.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ NUEVO: pie del modal con botón abajo a la derecha -->
+      <div class="checkout-foot">
+        <button id="coCloseBottom" class="btn btn-ghost close-bottom">Cerrar ✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== POS / LECTOR DE BARRAS (PC) ==================== -->
+  <div id="pos-modal" class="checkout-modal" style="display:none;">
+    <div class="checkout-card">
+      <div class="checkout-head">
+        <h3>Caja / Lector de barras</h3>
+        <button id="posClose" class="x" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="checkout-body" style="display:block;">
+        <div class="co-col" style="gap:8px;">
+          <label>Código de barras (escanea o escribe y Enter):</label>
+          <input id="posManual" type="text" placeholder="Escanea aquí..." autocomplete="off" inputmode="none">
+          <div style="display:flex; gap:10px;">
+            <input id="posPrecio" type="number" min="0" step="0.01" placeholder="Precio si no está en catálogo" style="max-width:220px;">
+            <button id="posAgregar" class="btn">Agregar</button>
+          </div>
+        </div>
+
+        <div class="co-col" style="margin-top:12px;">
+          <table class="pos-table" style="width:100%; border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:1px solid #eee;">
+                <th style="text-align:left; padding:8px;">Código</th>
+                <th style="text-align:left; padding:8px;">Descripción</th>
+                <th style="text-align:right; padding:8px;">Cant</th>
+                <th style="text-align:right; padding:8px;">Precio</th>
+                <th style="text-align:right; padding:8px;">Subtotal</th>
+                <th style="padding:8px;"></th>
+              </tr>
+            </thead>
+            <tbody id="posList"></tbody>
+          </table>
+        </div>
+
+        <div class="co-row" style="margin-top:12px;">
+          <strong>Total POS:</strong>
+          <div id="posTotal">Q 0.00</div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin:12px 0 4px;">
+          <button id="posCobrar" class="btn">Cobrar (F9)</button>
+          <button id="posVaciar" class="btn btn-ghost">Vaciar</button>
+        </div>
+
+        <small>Atajos: <b>F8</b> abrir/cerrar caja · <b>F9</b> cobrar.</small>
+      </div>
+    </div>
+  </div>
+  <!-- =========================================================== -->
+
+  <!-- PayPal SDK (cambia TU_CLIENT_ID por tu Client ID) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID&currency=USD"></script>
 </body>
 </html>
