@@ -345,6 +345,8 @@ button:hover { background-color: #1b5fa7; }
         padding: 20px;
         margin-bottom: 20px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        width: 100%;       /* obligar a que todas se expandan */
+        box-sizing: border-box;
     }
 
     .wrap-qr h1 { margin: 0 0 10px; font-size: 1.25rem; }
