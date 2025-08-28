@@ -136,13 +136,53 @@
     </div>
 
     <!-- ==================== CONTROL BOT ==================== -->
-    <div id="bot-control-container" class="bot-control-modal">
-      <h1>Control del Sistema de Loción</h1>
-      <button onclick="enviarAccion('crear')">Crear Loción</button>
-      <button onclick="enviarAccion('muestra')">Tomar Muestra</button>
-      <button onclick="enviarAccion('ticket')">Tomar Ticket</button>
-      <p id="respuesta"></p>
-    </div>
+      <div class="wrap">
+
+      <!-- Sección POS / Carrito -->
+      <div class="card">
+          <h1>POS - Cajero QR</h1>
+          <p>Presiona "Escanear QR" y acerca productos a la cámara. Escanea varios productos seguidos.</p>
+          <button id="startScan">Escanear QR</button>
+          <video id="camara" width="100%" autoplay></video>
+          <canvas id="canvas" style="display:none;"></canvas>
+          <ul id="cartList"></ul>
+          <div class="total-container">
+              Total: $<span id="totalPrice">0.00</span>
+          </div>
+          <div class="status" id="cartStatus"></div>
+          <button id="generateQR" style="background: var(--primary);">Generar QR de pago</button>
+          <img id="checkoutQR">
+      </div>
+      <!-- Fin de la sección POS -->
+      
+      <!-- Sección Arduino 1 -->
+      <div class="card">
+        <h1>Arduino 1 - Control de Paradas (BTN:8/9/10/11)</h1>
+        <p>Pulsa un botón para enviar señal al Arduino 1.</p>
+        <div class="grid">
+          <button data-pin="8">Línea 0 (Relay)</button>
+          <button data-pin="9">1 parada</button>
+          <button data-pin="10">2 paradas</button>
+          <button data-pin="11">3 paradas</button>
+        </div>
+        <div class="status" id="status1"></div>
+      </div>
+      <!-- Fin de la sección Arduino 1 -->
+
+      <!-- Sección Arduino 2 -->
+      <div class="card">
+        <h1>Arduino 2 - Motores AFMotor (Motor 1 siempre activo)</h1>
+        <p>Pulsa un botón para activar un motor junto con Motor 1 automáticamente.</p>
+        <div class="grid">
+          <button data-motor="2">Motor 2</button>
+          <button data-motor="3">Motor 3</button>
+          <button data-motor="4">Motor 4</button>
+        </div>
+        <div class="status" id="status2"></div>
+      </div>
+      <!-- Fin de la sección Arduino 2 -->
+      
+  </div>
 
     <script>
       const ipESP32 = "http://172.20.10.3";
@@ -175,6 +215,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-storage-compat.js" defer></script>
   <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
   <!-- Lógica JS -->
   <script src="app.js" defer></script>
@@ -345,5 +386,203 @@
 
   <!-- PayPal SDK (cambia TU_CLIENT_ID por tu Client ID) -->
   <script src="https://www.paypal.com/sdk/js?client-id=TU_CLIENT_ID&currency=USD"></script>
+  <script>
+    // Utilidad para desactivar botones mientras se envía
+    function setDisabled(selector, disabled) {
+        document.querySelectorAll(selector).forEach(b => b.disabled = disabled);
+    }
+    
+    // --- Código de POS / Carrito ---
+    let carrito = [];
+    const cartList = document.getElementById('cartList');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const cartStatus = document.getElementById('cartStatus');
+    const checkoutQR = document.getElementById('checkoutQR');
+    const video = document.getElementById('camara');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+    let scanInterval;
+    let stream;
+    let isScanning = false;
+
+    // Actualiza la lista del carrito y el precio total
+    function updateCart() {
+        cartList.innerHTML = carrito.map(p => `<li><span>${p.nombre}</span><span>$${(p.precio / 100).toFixed(2)}</span></li>`).join('');
+        const total = carrito.reduce((sum, p) => sum + p.precio, 0);
+        totalPriceSpan.textContent = (total / 100).toFixed(2);
+        cartStatus.textContent = `Productos en carrito: ${carrito.length}`;
+    }
+
+    // Generar QR de pago y detener la cámara
+    async function generateQR() {
+        if (carrito.length === 0) {
+            cartStatus.textContent = 'El carrito está vacío';
+            return;
+        }
+
+        try {
+            const res = await fetch('/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart: carrito }),
+            });
+            const blob = await res.blob();
+            checkoutQR.src = URL.createObjectURL(blob);
+            carrito = [];
+            updateCart();
+            cartStatus.textContent = 'Código de pago generado. ¡Gracias!';
+        } catch (e) {
+            cartStatus.textContent = `Error al generar QR de pago: ${e.message}`;
+            console.error(e);
+        } finally {
+            stopScan();
+        }
+    }
+    
+    // Detiene el escaneo y la cámara
+    function stopScan() {
+        if (isScanning) {
+            clearInterval(scanInterval);
+            if (stream) stream.getTracks().forEach(track => track.stop());
+            video.style.display = 'none';
+            isScanning = false;
+        }
+    }
+
+    // Activar cámara y escaneo continuo
+    document.getElementById('startScan').addEventListener('click', async () => {
+        try {
+            stopScan(); // Asegura que se detiene cualquier escaneo previo
+            video.style.display = 'block';
+            checkoutQR.src = '';
+            stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            video.srcObject = stream;
+            video.play();
+            isScanning = true;
+            
+            cartStatus.textContent = 'Escaneando...';
+            
+            // Inicia el escaneo solo después de que el video esté listo
+            video.addEventListener('loadedmetadata', () => {
+                video.addEventListener('playing', () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    scanInterval = setInterval(scanFrame, 300); // Se escanea cada 300ms
+                }, { once: true });
+            }, { once: true });
+
+        } catch (e) {
+            cartStatus.textContent = `Error al acceder a la cámara: ${e.message}`;
+            console.error(e);
+        }
+    });
+
+    // Función que se ejecuta en el intervalo para escanear la imagen de la cámara
+    async function scanFrame() {
+        if (video.readyState !== video.HAVE_ENOUGH_DATA) {
+            return;
+        }
+
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (code) {
+            const productCode = code.data;
+            console.log("Código QR detectado:", productCode); // Debugging: Muestra el código detectado
+            if (carrito.find(p => p.codigo === productCode)) {
+                cartStatus.textContent = 'Producto ya en el carrito.';
+                return;
+            }
+
+            // Si se encuentra un QR, se pausa el escaneo para no escanearlo repetidamente
+            clearInterval(scanInterval);
+            cartStatus.textContent = `Producto '${productCode}' detectado. Obteniendo detalles...`;
+
+            try {
+                console.log("Enviando a /scan_qr con productCode:", productCode); // Debugging: Muestra el dato que se envía
+                // Se envía el código del producto al servidor para obtener sus detalles
+                const res = await fetch('/scan_qr', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productCode: productCode })
+                });
+
+                const data = await res.json();
+                console.log("Respuesta del servidor:", data); // Debugging: Muestra la respuesta completa
+                
+                if (data.ok && data.producto) {
+                    carrito.push({ ...data.producto, codigo: productCode });
+                    updateCart();
+                    cartStatus.textContent = `Añadido: ${data.producto.nombre}`;
+                } else {
+                    cartStatus.textContent = data.error || 'Producto no encontrado o sin stock.';
+                }
+            } catch (e) {
+                cartStatus.textContent = `Error de red: ${e.message}`;
+                console.error(e);
+            } finally {
+                // Reanuda el escaneo después de un breve retraso para evitar escaneos dobles
+                setTimeout(() => {
+                    scanInterval = setInterval(scanFrame, 300);
+                    cartStatus.textContent = 'Escaneando...';
+                }, 1000);
+            }
+        }
+    }
+
+    // Botón para generar QR de pago final
+    document.getElementById('generateQR').addEventListener('click', generateQR);
+    // --- Fin del código de POS / Carrito ---
+
+
+    // --- Código de Control de Arduinos ---
+    const status1 = document.getElementById('status1');
+    async function pressArduino1(pin) {
+        setDisabled('button[data-pin]', true);
+        status1.textContent = `Enviando BTN:${pin}...`;
+        try {
+            const res = await fetch('/btn', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: Number(pin) }),
+            });
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || 'Error desconocido');
+            status1.textContent = `OK → ${data.sent}${data.resp ? ' | resp: ' + data.resp : ''}`;
+        } catch (e) {
+            status1.textContent = `Error: ${e.message}`;
+        } finally {
+            setDisabled('button[data-pin]', false);
+        }
+    }
+    document.querySelectorAll('button[data-pin]').forEach(btn => {
+        btn.addEventListener('click', () => pressArduino1(btn.dataset.pin));
+    });
+
+    const status2 = document.getElementById('status2');
+    async function pressArduino2(motor) {
+        setDisabled('button[data-motor]', true);
+        status2.textContent = `Enviando Motor ${motor}...`;
+        try {
+            const res = await fetch('/motor', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ motor: String(motor) }),
+            });
+            const data = await res.json();
+            if (!data.ok) throw new Error(data.error || 'Error desconocido');
+            status2.textContent = `OK → ${data.sent}${data.resp ? ' | resp: ' + data.resp : ''}`;
+        } catch (e) {
+            status2.textContent = `Error: ${e.message}`;
+        } finally {
+            setDisabled('button[data-motor]', false);
+        }
+    }
+    document.querySelectorAll('button[data-motor]').forEach(btn => {
+        btn.addEventListener('click', () => pressArduino2(btn.dataset.motor));
+    });
+    // --- Fin del código de Arduinos ---
+</script>
 </body>
 </html>
