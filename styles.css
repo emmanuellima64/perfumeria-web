@@ -314,3 +314,75 @@ button:hover { background-color: #1b5fa7; }
   .hero-banner { margin-top: 0; }
   .header-top { flex-wrap: wrap; flex-direction: row; justify-content: space-between; }
 }
+    .wrap-qr {
+        --fg: #e9eef8; 
+        --card: #151b2d; 
+        --muted: #9aa5b1;
+        --primary: #4f8cff; 
+        --danger: #ff5c5c;
+
+        margin: 0;
+        color: var(--fg);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans";
+        display: grid;
+        min-height: 100vh;
+        place-items: center;
+        width: 100%;
+        padding: 16px;
+        max-width: 600px; margin: 2.5rem auto; padding: 2rem;
+        background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .wrap-qr .wrap {
+        width: 100%;
+        max-width: 600px;
+        padding: 16px;
+    }
+
+    .wrap-qr .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .wrap-qr h1 { margin: 0 0 10px; font-size: 1.25rem; }
+    .wrap-qr p { margin: 0 0 16px; color: var(--muted); }
+
+    .wrap-qr .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .wrap-qr button {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-weight: 600;
+        color: #fff;
+        background: var(--primary);
+        cursor: pointer;
+        transition: transform .05s ease, opacity .2s ease;
+        width: 100%;
+    }
+    .wrap-qr button:active { transform: translateY(1px) scale(0.99); }
+    .wrap-qr button[disabled] { opacity: .6; cursor: not-allowed; }
+
+    .wrap-qr .status { margin-top: 12px; font-size: .95rem; color: var(--muted); min-height: 1.2em; white-space: pre-wrap; }
+    .wrap-qr ul { list-style: none; padding: 0; margin: 0; }
+    .wrap-qr ul li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--muted); }
+    .wrap-qr ul li:last-child { border-bottom: none; }
+
+    .wrap-qr video { border-radius: 12px; margin-bottom: 10px; display: none; }
+    .wrap-qr img { border-radius: 12px; margin-top: 10px; max-width: 100%; }
+
+    .wrap-qr .total-container {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 16px;
+        color: var(--primary);
+    }
